@@ -1,0 +1,18 @@
+Phenotype,Group,TraditionalName,Name,Abbreviation,Units
+rbc,RBC,Red Blood Cell Count,RBC Count,RBC count,1000000 cells/ul
+ch,RBC,Mean Hemoglobin Content,Mean RBC Hgb Content (CH),CH,pg
+chcm,RBC,Corpuscular Hemoglobin Concentration Mean,Mean RBC Hgb Concentration (CHCM),CHCM,g/dl
+hdw,RBC,Hemoglobin Distribution Width,Hemoglobin Distribution Width (HDW),HDW,%
+mcv,RBC,Mean Corpuscular Volume,Mean RBC Volume (MCV),MCV,fl
+rdw,RBC,Red Cell Distribution Width,Red Cell Distribution Width (RDW),RDW,%
+hct,RBC,Hematocrit,Hematocrit,Hct,%
+hgb,RBC,Hemoglobin,Blood Hemoglobin,Hgb,g/dl
+wbc,WBC,White Blood Cell Count,WBC Count,WBC count,1000 cells/ul
+nlr,WBC,Neutrophil to Lymphocyte Ratio,Neutrophil to Lymphocyte Ratio (NLR),NLR,ratio
+n.lymph,WBC,Lymphocyte Count,Lymphocyte Count,Lymph. count,1000 cells/ul
+n.neut,WBC,Neutrophil Count,Neutrophil Count,Neut. count,1000 cells/ul
+n.mono,WBC,Monocyte Count,Monocyte Count,Mono. coumt,1000 cells/ul
+n.eos,WBC,Eosinophil Count,Eosinophil Count,Eos. coumt,1000 cells/ul
+plt,Platelet,Platelet Count,Platelet Count,Platelet count,1000 cells/ul
+mpv,Platelet,Mean Platelet Volume,Mean Platelet Volume (MPV),MPV,fl
+mpm,Platelet,Mean Platelet Mass,Mean Platelet Mass (MPM),MPM,pg
