@@ -128,7 +128,7 @@ INFO_TABLE$Units[INFO_TABLE$Phenotype == 'nlr'] <- 'ratio'
 INFO_TABLE %>% 
   saveRDS('data/processed/misc/ComponentInfoTable.rds')
 INFO_TABLE %>% 
-  write_csv('data/processed/misc/ComponentInfoTable.csv')
+  write_csv('tables/misc/ComponentInfoTable.csv')
 
 #####
 
