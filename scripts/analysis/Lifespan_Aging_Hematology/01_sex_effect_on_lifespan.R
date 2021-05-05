@@ -64,7 +64,7 @@ DATA <- PhenoData_Raw %>%
 # 1 27.51  27.93 21.64 33.42 8.26 - 55.59    67.21 8.2 8.97 11.78
 
 pdf(
-  'figures/lifespan_aging_and_hematology/Distribution_of_lifespan.pdf',
+  'figures/lifespan_aging_hematology/Distribution_of_lifespan.pdf',
   width = 6.5, height = 4
 )
 DATA %>% 
@@ -240,7 +240,7 @@ X$layers <- Y
 X
 
 pdf(
-  'figures/lifespan_aging_and_hematology/Sex_surv_curve.pdf',
+  'figures/lifespan_aging_hematology/Sex_surv_curve.pdf',
   width = 6.5, height = 4
 )
 plot(X)
