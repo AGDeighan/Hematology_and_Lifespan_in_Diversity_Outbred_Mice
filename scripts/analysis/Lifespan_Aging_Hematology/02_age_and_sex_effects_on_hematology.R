@@ -83,7 +83,7 @@ NUMBER_OF_SIM_TO_PERFORM <- 10000
 SEX_EFFECTS <- data.frame(
   Trait = vector(),
   PValue_LRT = vector(),
-  PValut_PBS = vector(),
+  PValue_PBS = vector(),
   # Total number of simulations
   NSim = vector(),
   # Simulations in which the LRT statistic was greater than that observed 
@@ -266,7 +266,7 @@ for(TRAIT in CBCphenos){
     data.frame(
       Trait = TRAIT,
       PValue_LRT = as.numeric(TEST_RESULTS$test['LRT', 'p.value']),
-      PValut_PBS = as.numeric(TEST_RESULTS$test['PBtest', 'p.value']),
+      PValue_PBS = as.numeric(TEST_RESULTS$test['PBtest', 'p.value']),
       # Total number of simulations
       NSim = as.numeric(TEST_RESULTS$samples[2]), 
       # Simulations in which the LRT statistic was greater than that observed 
@@ -540,7 +540,7 @@ write_csv(
 AGE_EFFECTS <- data.frame(
   Trait = vector(),
   PValue_LRT = vector(),
-  PValut_PBS = vector(),
+  PValue_PBS = vector(),
   # Total number of simulations
   NSim = vector(),
   # Simulations in which the LRT statistic was greater than that observed 
@@ -719,7 +719,7 @@ for(TRAIT in CBCphenos){
     data.frame(
       Trait = TRAIT,
       PValue_LRT = as.numeric(TEST_RESULTS$test['LRT', 'p.value']),
-      PValut_PBS = as.numeric(TEST_RESULTS$test['PBtest', 'p.value']),
+      PValue_PBS = as.numeric(TEST_RESULTS$test['PBtest', 'p.value']),
       # Total number of simulations
       NSim = as.numeric(TEST_RESULTS$samples[2]), 
       # Simulations in which the LRT statistic was greater than that observed 
@@ -1012,7 +1012,7 @@ write_csv(
 AGESEX_INTERACTION_EFFECTS <- data.frame(
   Trait = vector(),
   PValue_LRT = vector(),
-  PValut_PBS = vector(),
+  PValue_PBS = vector(),
   # Total number of simulations
   NSim = vector(),
   # Simulations in which the LRT statistic was greater than that observed 
@@ -1191,7 +1191,7 @@ for(TRAIT in CBCphenos){
     data.frame(
       Trait = TRAIT,
       PValue_LRT = as.numeric(TEST_RESULTS$test['LRT', 'p.value']),
-      PValut_PBS = as.numeric(TEST_RESULTS$test['PBtest', 'p.value']),
+      PValue_PBS = as.numeric(TEST_RESULTS$test['PBtest', 'p.value']),
       # Total number of simulations
       NSim = as.numeric(TEST_RESULTS$samples[2]), 
       # Simulations in which the LRT statistic was greater than that observed 
