@@ -4,7 +4,7 @@
 #   This script estimates the effect of sex on each of the CBC traits. 
 # 
 #   This script is designed to by run on a high performance computing cluster 
-#   with at least 32 cores due to the multitude of simulations performed during 
+#   with at least 50 cores due to the multitude of simulations performed during 
 #   the parametric bootstraps to estimate statistical significance of effects.
 #
 #   Author:  Andrew Deighan
@@ -52,19 +52,46 @@ seqPBmodcomp <- function(largeModel, smallModel, h = 1, minsim = 10000, maxsim =
   # Linear Mixed Models The R Package pbkrtest"  
   set.seed(seed = seed)
   t.start <- proc.time()
-  nchunk <- maxsim %/% chunk.size
+  nchunk <- (maxsim %/% chunk.size) + 2
   LRTstat <- pbkrtest:::getLRT.merMod(largeModel, smallModel)
-  ref <- NULL
-  for (ii in 1:nchunk) {
+  
+  chunk_seed <- sample.int(99999:1000000, size = 1)
+  ref <- c(PBrefdist(largeModel, smallModel, nsim = minsim * 1.05, seed = chunk_seed, ...))
+  n.extreme <- sum(ref > LRTstat["tobs"])
+
+  if (n.extreme >= h & length(ref > 0) >= minsim){
+
+    ans <- PBmodcomp(largeModel, smallModel, ref = ref)
+    ans$ctime <- (proc.time() - t.start)[3]
+    return(ans)
+
+  } else{
+    
     chunk_seed <- sample.int(99999:1000000, size = 1)
-    ref <- c(ref, PBrefdist(largeModel, smallModel, nsim = chunk.size, seed = chunk_seed, ...))
+    ref <- c(ref, PBrefdist(largeModel, smallModel, nsim = minsim * 1.05, seed = chunk_seed, ...))
     n.extreme <- sum(ref > LRTstat["tobs"])
-    if (n.extreme >= h & length(ref > 0) >= minsim)
-      break
+
+    if (n.extreme >= h & length(ref > 0) >= minsim){
+
+      ans <- PBmodcomp(largeModel, smallModel, ref = ref)
+      ans$ctime <- (proc.time() - t.start)[3]
+      return(ans)
+
+    } else{
+
+      for (ii in 1:nchunk) {
+        chunk_seed <- sample.int(99999:1000000, size = 1)
+        ref <- c(ref, PBrefdist(largeModel, smallModel, nsim = chunk.size, seed = chunk_seed, ...))
+        n.extreme <- sum(ref > LRTstat["tobs"])
+        if (n.extreme >= h & length(ref > 0) >= minsim)
+          break
+      }
+
+      ans <- PBmodcomp(largeModel, smallModel, ref = ref)
+      ans$ctime <- (proc.time() - t.start)[3]
+      return(ans)
+   }
   }
-  ans <- PBmodcomp(largeModel, smallModel, ref = ref)
-  ans$ctime <- (proc.time() - t.start)[3]
-  ans
 }
 
 #####
@@ -77,12 +104,12 @@ load('data/processed/phenotypic/CBC_AnalysisEnvironment.RData')
 
 #####
 
-MIN_EXTREME <- 1
+MIN_EXTREME <- 2
 MIN_SIM <- 10000
-MAX_SIM <- 10^17
-CHUNK_SIZE <- MIN_SIM + 10
+MAX_SIM <- 10^7
+CHUNK_SIZE <- 10^6
 SEED <- 19940418
-CLUSTER <- makeCluster(rep("localhost", 32))
+CLUSTER <- makeForkCluster(50)
 
 
 ################################################################################
@@ -289,6 +316,11 @@ for(TRAIT in CBCphenos){
     )
   )
 
+  write_csv(
+    SEX_EFFECTS,
+    'out/sex_effects_on_hematology_traits_e7_bigchunks.csv'
+  )  
+
   print(VarCorr(FULL_MODEL))
 
   cat('\n -------------------- # \n\n')
@@ -463,13 +495,8 @@ SEX_EFFECTS <- SEX_EFFECTS %>%
 
 # write_csv(
 #   SEX_EFFECTS,
-#   'tables/lifespan_aging_hematology/sex_effects_on_hematology_traits.csv'
+#   'tables/lifespan_aging_hematology/sex_effects_on_hematology_traits_e7.csv'
 # )
-
-write_csv(
-  SEX_EFFECTS,
-  'out/sex_effects_on_hematology_traits.csv'
-)
 
 
 
