@@ -321,11 +321,6 @@ for(TRAIT in CBCphenos){
       TraitSD = TRAIT_SD
     )
   )
-
-  write_csv(
-    AGESEX_INTERACTION_EFFECTS,
-    'out/agesex_interaction_effects_on_hematology_traits_e7_bigchunks.csv'
-  )
   
   print(VarCorr(FULL_MODEL))
   

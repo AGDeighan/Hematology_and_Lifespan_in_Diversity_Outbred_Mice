@@ -316,11 +316,6 @@ for(TRAIT in CBCphenos){
     )
   )
 
-  write_csv(
-    SEX_EFFECTS,
-    'out/sex_effects_on_hematology_traits_e7_bigchunks.csv'
-  )  
-
   print(VarCorr(FULL_MODEL))
 
   cat('\n -------------------- # \n\n')
