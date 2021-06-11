@@ -1,12 +1,8 @@
 # 2021-05-27
 ################################################################################
 #
-#   This script estimates the effect of each of the CBC traits, across 
-#   timepoints, on lifespan. 
-# 
-#   This script is designed to by run on a high performance computing cluster 
-#   with at least 32 cores due to the multitude of simulations performed during 
-#   the parametric bootstraps to estimate statistical significance of effects.
+#   This script creates plots that summarize the age, sex, and lifespan effects
+#   for each CBC trait
 #
 #   Author:  Andrew Deighan
 #   E-mail: andrew.deighan@jax.org
