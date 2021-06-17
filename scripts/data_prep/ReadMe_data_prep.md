@@ -7,17 +7,17 @@ We excluded all mice that died before 8 months (43 mice: 19 females, 24 males), 
 
 We used an Advia 2120 automated blood counter equipped with software specialized for mice to perform blood counts at three different timepoints: 7, 13, and 19 months
 
-For each hematology assay, we analyzed 16 traits automatically reported by the automated blood counter, as well as the neutrophil to lymphocyte ratio (NLR) which we manually calculated from the automatically reported neutrophil and lymphocyte counts:  
+For each hematology assay, we analyzed 16 traits automatically reported by the blood counter, as well as the neutrophil to lymphocyte ratio (NLR) which we manually calculated from the neutrophil and lymphocyte counts:  
 &emsp;&emsp;NLR = # Neutrophils / # Lymphocytes  
-In addition to NLR, the automatically reported trait hematocrit is also a derived measure, calculated from RBC count and mean red blood cell volume (MCV):  
+In addition to NLR, the automatically reported trait hematocrit is a derived measure, calculated from RBC count and mean red blood cell volume (MCV):  
 &emsp;&emsp;Hct = (# RBC * MCV) / 10  
-Additionally, in order to match the units of red cell distribution width (RDW, the coefficient of variation of red blood cell volume, a percent), we converted hemoglobin distribution width (HDW, the standard deviation of red blood cell hemoglobin concentration) from a standard deviation to a percent coefficient of variation by dividing by the cellular hemoglobin concentration mean (CHCM, mean hemoglobin concentration of red blood cells) and then multiplying by 100%:  
+In order to match the units of red cell distribution width (RDW, the coefficient of variation of red blood cell volume, a percent), we converted hemoglobin distribution width (HDW, the standard deviation of red blood cell hemoglobin concentration) from a standard deviation to a percent coefficient of variation by dividing by the cellular hemoglobin concentration mean (CHCM, mean hemoglobin concentration of red blood cells) and then multiplying by 100%:  
 &emsp;&emsp;HDW[%] = (HDW[SD] / CHCM) * 100%
 
 The table below lists the peripheral blood traits included in our analyis:                                                                              
 | Name												| Description											       | Units                        |
 | ------------------------------------------------- | ------------------------------------------------------------ | ---------------------------- |
-| Red blood cell (RBC) count						| Concentration of RBC in peripheral blood				       | 1000000 cells per microliter |		
+| Red blood cell (RBC) count						| Concentration of RBCs in peripheral blood				       | 1000000 cells per microliter |		
 | Hematocrit										| Proportion of peripheral blood consisting of RBCs		       | percent 					  |						
 | Hemoglobin										| Hemoglobin concentration in peripheral blood			       | grams per deciliter          |			
 | Corpuscular hemoglobin (CH)						| Average hemoglobin content of RBCs					       | picograms                    |		
