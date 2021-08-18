@@ -1,8 +1,8 @@
-# 2021-05-27
+# 2021-07-09
 ################################################################################
 #
-#   This script creates plots that summarize the age, sex, and lifespan effects
-#   for each CBC trait
+#   This script creates separate figures for each of the CBC phenotypes 
+#   summarising the diet and age effects
 #
 #   Author:  Andrew Deighan
 #   E-mail: andrew.deighan@jax.org
