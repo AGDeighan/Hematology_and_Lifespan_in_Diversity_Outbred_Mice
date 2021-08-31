@@ -429,7 +429,7 @@ for(PHENO in CBCphenos){
       ),
     ggdraw() + 
       draw_label(
-        "13 months",
+        "19 months",
         size = 9,
         x = 0.5,
         hjust = 0.5,
