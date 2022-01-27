@@ -210,6 +210,41 @@ log_tf <- function(x, shift = 0.01){
   return(log(x))
 }
 
+best_transform <- function(pheno, shift = 0.01){
+  SKEW <- e1071::skewness(pheno, na.rm = TRUE)
+  KURT <- e1071::kurtosis(pheno, na.rm = TRUE)
+  
+  if(
+    SKEW > 0 &
+    abs(e1071::skewness(
+      log_tf(x = pheno, shift = shift), na.rm = TRUE
+    )) < abs(SKEW) &
+    abs(e1071::kurtosis(
+      log_tf(x = pheno, shift = shift), na.rm = TRUE
+    )) < abs(KURT)
+  ){
+    TRANSFORM <- 'log'
+    pheno <- log_tf(x = pheno, shift = shift)
+    TMIN <- min(pheno, na.rm = TRUE); TMAX <- max(pheno, na.rm = TRUE)
+  } else if(
+    SKEW < 0 &
+    abs(e1071::skewness(
+      log_tf(x = flip(pheno), shift = shift), na.rm = TRUE
+    )) < abs(SKEW) &
+    abs(e1071::kurtosis(
+      log_tf(x = flip(pheno), shift = shift), na.rm = TRUE
+    )) < abs(KURT)
+  ){
+    TRANSFORM <- 'flipped log'
+    pheno <- log_tf(x = flip(pheno), shift = shift)
+    TMIN <- min(pheno, na.rm = TRUE); TMAX <- max(pheno, na.rm = TRUE)
+  } else{
+    TRANSFORM <- TYPE <- 'none'
+  }
+  
+  return(TRANSFORM)
+}
+
 adjust_pheno_for_batch <- function(pheno, batch, tp, mouse, sex){
   
   # This function uses a fully random effects model to account estimate batch
@@ -866,6 +901,32 @@ if(CREATE_PLOTS){
 
 ################################################################################
 ##### Adjusting for date and clumping #####
+
+TRANSFORM_TABLE <- REVISED_DATA %>%
+  select(
+    MouseID, Timepoint, wbc:n.eos, nlr
+  ) %>% 
+  pivot_longer(
+    cols = wbc:nlr,
+    names_to = 'Phenotype',
+    values_to = 'X'
+  ) %>% 
+  group_by(Phenotype) %>% 
+  summarise(
+    Transform = best_transform(X)
+  ) %>% 
+  ungroup() %>% 
+  mutate(
+    Phenotype = factor(
+      Phenotype,
+      levels = c(
+        "rbc", "ch", "chcm", "hdw", "mcv", "rdw", "hct", "hgb", 
+        "wbc", "nlr", "n.lymph", "n.neut", "n.mono", "n.eos",
+        "plt", "mpv", "mpm" 
+      )
+    )
+  ) %>% 
+  arrange(Phenotype)
 
 ADJUSTED_DATA <- REVISED_DATA %>% 
   mutate(
@@ -1939,6 +2000,11 @@ RAW_DATA <- REVISED_DATA %>%
 
 ################################################################################
 ##### saving #####
+
+TRANSFORM_TABLE %>% 
+  write_csv(
+    'data/processed/phenotypic/Transform_Table.csv'
+  )
 
 ADJUSTED_DATA %>% 
   write_csv(

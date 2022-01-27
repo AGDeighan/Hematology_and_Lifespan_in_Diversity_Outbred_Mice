@@ -101,9 +101,11 @@ seqPBmodcomp <- function(largeModel, smallModel, h = 1, minsim = 10000, maxsim =
 ################################################################################
 ## load data etc #########################################################
 
-# load('data/processed/phenotypic/CBC_AnalysisEnvironment.RData')
+load('data/processed/phenotypic/CBC_AnalysisEnvironment.RData')
 
-load('data/CBC_AnalysisEnvironment.RData')
+TRANSFORM_TABLE <- read_csv(
+  'data/processed/phenotypic/Transform_Table.csv'
+)
 
 #####
 
@@ -143,9 +145,15 @@ for(TRAIT in CBCphenos){
   ADJ_DATA <- PhenoData_ClumpDateAdj %>% 
     filter(Timepoint == '7 Months')
   
-  TRAIT_SD <- sd(ADJ_DATA[[TRAIT]], na.rm = TRUE)
+  if(TRAIT %in% TRANSFORM_TABLE$Phenotype[TRANSFORM_TABLE$Transform == 'log']){
+    ADJ_DATA[['X']] <- log(ADJ_DATA[[TRAIT]])
+  } else{
+    ADJ_DATA[['X']] <- ADJ_DATA[[TRAIT]]
+  }
   
-  ADJ_DATA[['X']] <- ADJ_DATA[[TRAIT]]
+  
+  TRAIT_SD <- sd(ADJ_DATA[['X']], na.rm = TRUE)
+  
   ADJ_DATA <- ADJ_DATA %>%
     mutate(
       Lifespan = Lifespan - AgeAtTest,
@@ -252,11 +260,6 @@ for(TRAIT in CBCphenos){
     )
   )
   
-  # write_csv(
-  #   LS_EFFECTS_07MO,
-  #   'tables/lifespan_aging_hematology/hematology_effects_on_lifespan_at_07_months.csv'
-  # )  
-  
   print(VarCorr(FULL_MODEL))
   
   cat('\n -------------------- # \n\n')
@@ -317,9 +320,14 @@ for(TRAIT in CBCphenos){
   ADJ_DATA <- PhenoData_ClumpDateAdj %>% 
     filter(Timepoint == '13 Months')
   
-  TRAIT_SD <- sd(ADJ_DATA[[TRAIT]], na.rm = TRUE)
+  if(TRAIT %in% TRANSFORM_TABLE$Phenotype[TRANSFORM_TABLE$Transform == 'log']){
+    ADJ_DATA[['X']] <- log(ADJ_DATA[[TRAIT]])
+  } else{
+    ADJ_DATA[['X']] <- ADJ_DATA[[TRAIT]]
+  }
   
-  ADJ_DATA[['X']] <- ADJ_DATA[[TRAIT]]
+  
+  TRAIT_SD <- sd(ADJ_DATA[['X']], na.rm = TRUE)
   ADJ_DATA <- ADJ_DATA %>%
     mutate(
       Lifespan = Lifespan - AgeAtTest,
@@ -426,11 +434,6 @@ for(TRAIT in CBCphenos){
     )
   )
   
-  # write_csv(
-  #   LS_EFFECTS_13MO,
-  #   'tables/lifespan_aging_hematology/hematology_effects_on_lifespan_at_13_months.csv'
-  # )  
-  
   print(VarCorr(FULL_MODEL))
   
   cat('\n -------------------- # \n\n')
@@ -491,9 +494,14 @@ for(TRAIT in CBCphenos){
   ADJ_DATA <- PhenoData_ClumpDateAdj %>% 
     filter(Timepoint == '19 Months')
   
-  TRAIT_SD <- sd(ADJ_DATA[[TRAIT]], na.rm = TRUE)
+  if(TRAIT %in% TRANSFORM_TABLE$Phenotype[TRANSFORM_TABLE$Transform == 'log']){
+    ADJ_DATA[['X']] <- log(ADJ_DATA[[TRAIT]])
+  } else{
+    ADJ_DATA[['X']] <- ADJ_DATA[[TRAIT]]
+  }
   
-  ADJ_DATA[['X']] <- ADJ_DATA[[TRAIT]]
+  
+  TRAIT_SD <- sd(ADJ_DATA[['X']], na.rm = TRUE)
   ADJ_DATA <- ADJ_DATA %>%
     mutate(
       Lifespan = Lifespan - AgeAtTest,
@@ -600,11 +608,6 @@ for(TRAIT in CBCphenos){
     )
   )
   
-  # write_csv(
-  #   LS_EFFECTS_19MO,
-  #   'tables/lifespan_aging_hematology/hematology_effects_on_lifespan_at_19_months.csv'
-  # )  
-  
   print(VarCorr(FULL_MODEL))
   
   cat('\n -------------------- # \n\n')
@@ -642,7 +645,18 @@ LS_EFFECTS_19MO <- LS_EFFECTS_19MO %>%
 #     LS_EFFECTS_07MO,
 #     LS_EFFECTS_13MO,
 #     LS_EFFECTS_19MO
-#   ),
+#   ) %>% 
+#     left_join(
+#       TRANSFORM_TABLE %>% 
+#         mutate(
+#           Transform = ifelse(Transform == 'flipped log', 'none', Transform)
+#         ) %>% 
+#         rename(
+#           Trait = Phenotype,
+#           TraitTransform = Transform
+#         ),
+#       by = 'Trait'
+#     ),
 #   'tables/lifespan_aging_hematology/hematology_effects_on_lifespan.csv'
 # )
 
